@@ -193,21 +193,21 @@ public final class RealConnection implements Connection {
       Handshake unverifiedHandshake = Handshake.get(sslSocket.getSession());
 
       // Verify that the socket's certificates are acceptable for the target host.
-      if (!address.getHostnameVerifier().verify(address.getUriHost(), sslSocket.getSession())) {
-        X509Certificate cert = (X509Certificate) unverifiedHandshake.peerCertificates().get(0);
-        throw new SSLPeerUnverifiedException("Hostname " + address.getUriHost() + " not verified:"
-            + "\n    certificate: " + CertificatePinner.pin(cert)
-            + "\n    DN: " + cert.getSubjectDN().getName()
-            + "\n    subjectAltNames: " + OkHostnameVerifier.allSubjectAltNames(cert));
-      }
+      // if (!address.getHostnameVerifier().verify(address.getUriHost(), sslSocket.getSession())) {
+      //   X509Certificate cert = (X509Certificate) unverifiedHandshake.peerCertificates().get(0);
+      //   throw new SSLPeerUnverifiedException("Hostname " + address.getUriHost() + " not verified:"
+      //       + "\n    certificate: " + CertificatePinner.pin(cert)
+      //       + "\n    DN: " + cert.getSubjectDN().getName()
+      //       + "\n    subjectAltNames: " + OkHostnameVerifier.allSubjectAltNames(cert));
+      // }
 
       // Check that the certificate pinner is satisfied by the certificates presented.
-      if (address.getCertificatePinner() != CertificatePinner.DEFAULT) {
-        TrustRootIndex trustRootIndex = trustRootIndex(address.getSslSocketFactory());
-        List<Certificate> certificates = new CertificateChainCleaner(trustRootIndex)
-            .clean(unverifiedHandshake.peerCertificates());
-        address.getCertificatePinner().check(address.getUriHost(), certificates);
-      }
+      // if (address.getCertificatePinner() != CertificatePinner.DEFAULT) {
+      //   TrustRootIndex trustRootIndex = trustRootIndex(address.getSslSocketFactory());
+      //   List<Certificate> certificates = new CertificateChainCleaner(trustRootIndex)
+      //       .clean(unverifiedHandshake.peerCertificates());
+      //   address.getCertificatePinner().check(address.getUriHost(), certificates);
+      // }
 
       // Success! Save the handshake and the ALPN protocol.
       String maybeProtocol = connectionSpec.supportsTlsExtensions()
